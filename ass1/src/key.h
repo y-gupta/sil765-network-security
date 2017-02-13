@@ -78,7 +78,7 @@ uint64_t key_round(int i,uint64_t &CD){
 
 
 uint64_t inv_key_round(int i,uint64_t &CD){
-  if(i==16)
+  if(i==1)
   {// CD is actually the 64-bit key with redundant partity bits!
     CD = permutation_choice1_box(CD);
     //printf("CD0: %lX\n", CD);
@@ -90,6 +90,6 @@ uint64_t inv_key_round(int i,uint64_t &CD){
     2,2,2,1
   };
   uint64_t K = permutation_choice2_box(CD);
-  CD = inv_shift_boxes(shift_table[i-1], CD);
+  CD = inv_shift_boxes(shift_table[16-i], CD);
   return K;
 }

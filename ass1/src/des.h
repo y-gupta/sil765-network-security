@@ -84,22 +84,19 @@ uint64_t decrypt(uint64_t in, uint64_t key){ //key has 8 redundant parity bits
   L = (LR >> 32) & 0xffffffff;
   R = LR & 0xffffffff;
 
+  tmp = L; L = R; R = tmp;
+
   printf("00 - L: %08X  R: %08X\n",L,R);
 
   CD = key;
-  for(int i=16;i>=1;i--){
+  for(int i=1;i<=16;i++){
     K = inv_key_round(i, CD);
-    tmp = L ^ fiestel_box(R, K);
-    L = R;
-    R = tmp;
+    tmp = R ^ fiestel_box(L, K);
+    R = L;
+    L = tmp;
 
     printf("%02d - L: %08X  R: %08X  K: %012lX  CD: %016lX\n",i,L,R,K,CD);
   }
-
-  //swap L and R
-  tmp = L;
-  L = R;
-  R = tmp;
 
   LR = (uint64_t(L) << 32) | R;
 
