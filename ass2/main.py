@@ -79,9 +79,6 @@ def client():
   src_fname="test.txt"
   tar_fname="signed.txt"
 
-  # fo=open(src_fname, "w")
-  # fo.write("Python is a great language.\nYeah its great!!\n");
-  # fo.close()
   #Initial Document
   fs = open(src_fname,"r")
   document = fs.read()
