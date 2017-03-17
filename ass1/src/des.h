@@ -39,7 +39,7 @@ uint64_t inv_initial_permutation_box(uint64_t in){
   return out;
 }
 
-uint64_t encrypt(uint64_t in, uint64_t key){ //key has 8 redundant parity bits
+uint64_t encrypt(uint64_t in, uint64_t key, uint64_t encrypt_outputs[16]){ //key has 8 redundant parity bits
   printf("plain: %016lX\nkey:   %016lX\n",in,key);
 
   uint64_t LR = initial_permutation_box(in);
@@ -57,7 +57,7 @@ uint64_t encrypt(uint64_t in, uint64_t key){ //key has 8 redundant parity bits
     tmp = L ^ fiestel_box(R, K);
     L = R;
     R = tmp;
-
+    encrypt_outputs[i-1] = L | (uint64_t(R)<<16);
     printf("%02d - L: %08X  R: %08X  K: %012lX  CD: %016lX\n",i,L,R,K,CD);
   }
 
@@ -74,7 +74,7 @@ uint64_t encrypt(uint64_t in, uint64_t key){ //key has 8 redundant parity bits
   return LR;
 }
 
-uint64_t decrypt(uint64_t in, uint64_t key){ //key has 8 redundant parity bits
+uint64_t decrypt(uint64_t in, uint64_t key, uint64_t decrypt_outputs[16]){ //key has 8 redundant parity bits
   printf("cipher: %016lX\nkey:   %016lX\n",in,key);
 
   uint64_t LR = initial_permutation_box(in);
@@ -95,6 +95,7 @@ uint64_t decrypt(uint64_t in, uint64_t key){ //key has 8 redundant parity bits
     R = L;
     L = tmp;
 
+    decrypt_outputs[i-1] = L | (uint64_t(R)<<16);
     printf("%02d - L: %08X  R: %08X  K: %012lX  CD: %016lX\n",i,L,R,K,CD);
   }
 
