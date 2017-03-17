@@ -1,6 +1,4 @@
 #Time Stamping a document
-#public key is (23,323) and private key is (263,323) : e = 23, d = 263, n = 323 - RSA Implementation
-
 
 import hashlib
 import datetime
