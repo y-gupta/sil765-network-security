@@ -10,35 +10,35 @@ def start():
 	global xa
 	xa = random.randint(1,q) #private key of A: xa<q-1
 	ya = modexp(a,xa,q) #ya=a^xa mod q
-	print "Prime number q = "+str(q)
-	print "Primitive root of "+str(q)+" = "+str(a)
-	print "Public Key of A = "+str(ya)
+	print "Prime number q = "+str(q)+"\n"
+	print "Primitive root of "+str(q)+" = "+str(a)+"\n"
+	print "Public Key of A = "+str(ya)+"\n"
 
 	#Man in the Middle Attack Prevention
-	print "Man in the Middle Attack Prevention Measure at A's end"
+	print "Man in the Middle Attack Prevention Measure at A's end. \n"
 	h = hmac.new(key,'',md5)
 	h.update(str(ya))
 
 	## Merge with HMAC digest
-	print "HMAC before sending to Client B = "+str(h.hexdigest())
+	print "HMAC before sending to Client B = "+str(h.hexdigest())+"\n"
 	ya1 = str(ya)+str(h.hexdigest())	
 	clientB(ya1)
 
 
 def clientB(ya1):
 	ya=int(ya1[:-32])
-	print "Check for MITM attack at B's end"
+	print "Check for MITM attack at B's end. \n"
 	h1 = hmac.new(key,'',md5)
 	h1.update(str(ya))
 	u1 = str(h1.hexdigest())
 	if u1 == str(ya1[-32:]):
-		print "Result: No MITM Attack"
+		print "Result: No MITM Attack \n"
 	else:
-		print "MITM Attack."
+		print "MITM Attack. \n"
 		return
 	xb = random.randint(1,q) #private key of B: xb<q-1
 	message="hello 1"
-	print "Message to be sent from B to A = "+message
+	print "Message to be sent from B to A = "+message+"\n"
 	z = encode(message) #encoded message
 
 	#cipher_pairs list will hold pairs (yb, d) corresponding to each integer in z
@@ -58,7 +58,7 @@ def clientB(ya1):
 
 def clientA(cipher):
 	plaintext = []
-	print "Cipher Text received by A = "+cipher
+	print "Cipher Text received by A = "+cipher+"\n"
 	cipherArray = cipher.split()
 	if (not len(cipherArray) % 2 == 0):
 			return "Malformed Cipher Text"
@@ -80,7 +80,7 @@ def clientA(cipher):
 #remove trailing null bytes
 	decryptedText = "".join([ch for ch in decryptedText if ch != '\x00'])
 
-	print "decryptedText = "+decryptedText
+	print "decryptedText = "+decryptedText+"\n"
 
 #computes base^exp mod modulus
 def modexp(base,exp,modulus):
