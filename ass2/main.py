@@ -83,7 +83,7 @@ def client():
   fs = open(src_fname,"r")
   document = fs.read()
   fs.close()
-  print "Initial Document = "+ repr(document)
+  print "Initial Document =   "+ repr(document)
 
 
   h = hashlib.sha1(document).hexdigest() #SHA1 of the document before it's sent to the time stamping server
@@ -92,11 +92,11 @@ def client():
   print "Timestamp = " + timestamp
   print "Signature (in hex) = " + hex_repr(signature)
 
-  ft=open(tar_fname, "w")
-  ft.write(document);
-  ft.write(timestamp);
-  ft.write(signature);
-  ft.close()
+  # ft=open(tar_fname, "w")
+  # ft.write(document);
+  # ft.write(timestamp);
+  # ft.write(signature);
+  # ft.close()
 
 
   #After Timestamping Document
